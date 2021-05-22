@@ -14,19 +14,23 @@ public class Main {
                 "G53","G49","G60","G50","g45",
                 "I26","I17","I29",
                 "O71");
+        bingoNumbers.stream()
+                .map(String::toUpperCase)// same as s-> s.toUpperCase()
+                .filter(s->s.startsWith("G"))
+                .sorted()
+                .forEach(System.out::println);
 
-
-        List<String>gNumbers=new ArrayList<>();
-
-        //Print G numbers
-        bingoNumbers.forEach(number->{
-            if(number.toUpperCase().startsWith("G")){
-                gNumbers.add(number);
-                //System.out.println(number);
-            }
-        });
-
-        gNumbers.sort((String s1,String s2)->s1.compareTo(s2));
-        gNumbers.forEach((String s)-> System.out.println(s));
+//        List<String>gNumbers=new ArrayList<>();
+//
+//        //Print G numbers
+//        bingoNumbers.forEach(number->{
+//            if(number.toUpperCase().startsWith("G")){
+//                gNumbers.add(number);
+//                //System.out.println(number);
+//            }
+//        });
+//
+//        gNumbers.sort((String s1,String s2)->s1.compareTo(s2));
+//        gNumbers.forEach((String s)-> System.out.println(s));
     }
 }
