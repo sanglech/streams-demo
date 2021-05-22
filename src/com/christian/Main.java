@@ -3,6 +3,8 @@ package com.christian;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Main {
@@ -15,6 +17,7 @@ public class Main {
                 "G53","G49","G60","G50","g45",
                 "I26","I17","I29",
                 "O71");
+
         bingoNumbers.stream()
                 .map(String::toUpperCase)// same as s-> s.toUpperCase()
                 .filter(s->s.startsWith("G"))
@@ -25,12 +28,65 @@ public class Main {
         Stream<String> ioNumberStream= Stream.of("I26","I17","I29","071");
         Stream<String> inNumberStream= Stream.of("N40","N36","I26","I17","I29","071");
         Stream<String> concatStream = Stream.concat(ioNumberStream,inNumberStream);
-        System.out.println("-------------");
-
+        System.out.println("-----CONCAT STREAM--------");
         System.out.println(concatStream
-                .distinct().
-                peek(System.out::println)
+                .distinct()
+                .peek(System.out::println)
                 .count());
+
+        System.out.println("------Collect Stream--------");
+//        List<String> sortedGNumbers= bingoNumbers
+//                .stream()
+//                .map(String::toUpperCase)
+//                .filter(s->s.startsWith("G"))
+//                .sorted()
+//                .collect(Collectors.toList());
+
+        List<String> sortedGNumbers= bingoNumbers
+                .stream()
+                .map(String::toUpperCase)
+                .filter(s->s.startsWith("G"))
+                .sorted()
+                .collect(ArrayList::new, ArrayList::add,ArrayList::addAll);
+
+        for (String s: sortedGNumbers){
+            System.out.println(s);
+        }
+
+        System.out.println("------------------------------");
+        Employee emp1= new Employee("John Doe", 20);
+        Employee emp2= new Employee("Mary Sue", 40);
+        Employee emp3= new Employee("Bert Mack", 50);
+        Employee emp4= new Employee("Sally Song", 25);
+        Employee emp5= new Employee("Christian San", 30);
+
+        Department hr= new Department("Human Resources");
+        Department accounting= new Department("Accounting");
+
+        hr.addEmployee(emp1);
+        hr.addEmployee(emp2);
+        hr.addEmployee(emp3);
+
+        accounting.addEmployee(emp4);
+        accounting.addEmployee(emp5);
+
+        List<Department>departments= new ArrayList<>();
+        departments.add(hr);
+        departments.add(accounting);
+
+
+        departments.stream()
+                .flatMap(department -> department.getEmployees().stream())
+                    .forEach(System.out::println);
+
+        //Group employees by age for all departments
+        Map<Integer,List<Employee>> groupByAge=departments.stream()
+                .flatMap(department -> department.getEmployees().stream())
+                .collect(Collectors.groupingBy(employee-> employee.getAge()));
+
+        System.out.println("GROUP BY AGE: "+groupByAge);
+
+
 
 //        List<String>gNumbers=new ArrayList<>();
 //
